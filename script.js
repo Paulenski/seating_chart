@@ -63,6 +63,7 @@ function setupEventListeners() {
 
     // Import from Google Sheet
     document.getElementById('importBtn').addEventListener('click', importFromGoogleSheet);
+    document.getElementById('importCsvBtn').addEventListener('click', importFromCsvData);
 
     // Clear All Button
     document.getElementById('clearAllBtn').addEventListener('click', clearAllItems);
@@ -596,8 +597,67 @@ function importFromGoogleSheet() {
         })
         .catch(error => {
             console.error('Import error:', error);
-            alert(`Error importing players: ${error.message}\n\nNote: Make sure your Google Sheet is published to web (File > Share > Publish to web) or publicly accessible.`);
+            alert(`Error importing players: ${error.message}\n\nNote: Due to CORS restrictions, the URL import may not work on all platforms. Try the "Import from CSV Data" option below instead.`);
         });
+}
+
+function importFromCsvData() {
+    const csvData = document.getElementById('csvData').value.trim();
+    
+    if (!csvData) {
+        alert('Please paste CSV data in the text area.');
+        return;
+    }
+    
+    // Parse CSV data
+    const rows = csvData.split('\n');
+    let importedCount = 0;
+    
+    // Skip header row (row 0) and process data rows
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].trim();
+        if (!row) continue; // Skip empty rows
+        
+        // Split row by comma (basic CSV parsing)
+        const columns = row.split(',');
+        
+        // Column A is index 0 - Player name
+        // Column B is index 1 - Keep Size
+        const playerName = columns[0] ? columns[0].trim().replace(/^"|"$/g, '') : '';
+        const keepSize = columns[1] ? columns[1].trim().replace(/^"|"$/g, '') : '';
+        
+        // Only import if player name is not empty and not just whitespace
+        if (playerName && playerName.length > 0 && playerName !== 'Player') {
+            // Determine size from column B, default to 2x2 if not specified
+            let size = '2x2';
+            if (keepSize.includes('3') || keepSize.toLowerCase().includes('3x3')) {
+                size = '3x3';
+            }
+            
+            // Check if player already exists
+            if (!players.some(p => p.name === playerName)) {
+                players.push({
+                    name: playerName,
+                    size: size,
+                    assigned: false
+                });
+                importedCount++;
+            }
+        }
+    }
+    
+    // Update UI
+    updateUnassignedList();
+    updatePlayerStats();
+    
+    // Clear the textarea
+    document.getElementById('csvData').value = '';
+    
+    if (importedCount > 0) {
+        alert(`Successfully imported ${importedCount} players!`);
+    } else {
+        alert('No players found to import. Make sure the CSV has proper format with player names in the first column.');
+    }
 }
 
 // Update unassigned player list (no longer needed with modal, but kept for stats)

@@ -851,6 +851,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    position: relative;
 }
 
 .player-option:hover {
@@ -896,6 +897,67 @@ main {
     color: #666;
     font-size: 11px;
     text-align: center;
+}
+
+/* Delete button for individual player */
+.player-option .delete-player-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #f44336;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+
+.player-option:hover .delete-player-btn {
+    opacity: 1;
+}
+
+.player-option .delete-player-btn:hover {
+    background: #d32f2f;
+    transform: scale(1.1);
+}
+
+/* Delete All button */
+.modal-actions {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.delete-all-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.delete-all-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.delete-all-btn:active {
+    transform: translateY(0);
 }
 
 /* Scrollbar Styles */

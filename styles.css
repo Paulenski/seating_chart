@@ -255,13 +255,20 @@ main {
     font-weight: 600;
 }
 
-.import-section input {
+.import-section input,
+.import-section textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 12px;
     margin-bottom: 8px;
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+}
+
+.import-section textarea {
+    background: white;
 }
 
 .help-text {

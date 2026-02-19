@@ -129,9 +129,32 @@ function setupEventListeners() {
     // Player Modal
     const playerModal = document.getElementById('playerModal');
     const playerCloseBtn = playerModal.querySelector('.close');
+    const deleteAllPlayersBtn = document.getElementById('deleteAllPlayersBtn');
     
     playerCloseBtn.addEventListener('click', function() {
         playerModal.style.display = 'none';
+    });
+    
+    // Delete All Players button
+    deleteAllPlayersBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete ALL players from the player list? This will also remove any placed players from the grid.')) {
+            // Remove all players from array
+            players = [];
+            // Remove all placed players from grid
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    const item = findItemAt(row, col);
+                    if (item && item.type === 'player') {
+                        removeItem(item);
+                    }
+                }
+            }
+            // Refresh modal
+            showPlayerModal();
+            // Update stats
+            updatePlayerStats();
+            updatePlacedList();
+        }
     });
 
     window.addEventListener('click', function(event) {
@@ -503,44 +526,78 @@ function importFromGoogleSheet() {
         return;
     }
     
-    // Since we can't directly access Google Sheets without proper authentication,
-    // we'll simulate the import with a demo data set
-    // In a real implementation, you would use Google Sheets API
+    // Extract sheet ID from URL
+    const sheetIdMatch = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (!sheetIdMatch) {
+        alert('Invalid Google Sheet URL. Please provide a valid Google Sheet URL.');
+        return;
+    }
     
-    alert('Note: In a production environment, this would use the Google Sheets API. For demonstration, I\'ll import sample data.');
+    const sheetId = sheetIdMatch[1];
     
-    // Simulate importing 50 sample players
-    const sampleNames = [
-        'Player1', 'Player2', 'Player3', 'Player4', 'Player5',
-        'Player6', 'Player7', 'Player8', 'Player9', 'Player10',
-        'Player11', 'Player12', 'Player13', 'Player14', 'Player15',
-        'Player16', 'Player17', 'Player18', 'Player19', 'Player20',
-        'Player21', 'Player22', 'Player23', 'Player24', 'Player25',
-        'Player26', 'Player27', 'Player28', 'Player29', 'Player30',
-        'Player31', 'Player32', 'Player33', 'Player34', 'Player35',
-        'Player36', 'Player37', 'Player38', 'Player39', 'Player40',
-        'Player41', 'Player42', 'Player43', 'Player44', 'Player45',
-        'Player46', 'Player47', 'Player48', 'Player49', 'Player50'
-    ];
+    // Build CSV export URL
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
     
-    let importedCount = 0;
-    sampleNames.forEach(name => {
-        const size = Math.random() > 0.5 ? '2x2' : '3x3';
-        if (!players.some(p => p.name === name)) {
-            players.push({
-                name: name,
-                size: size,
-                assigned: false
-            });
-            importedCount++;
-        }
-    });
-    
-    // Update UI
-    updateUnassignedList();
-    updatePlayerStats();
-    
-    alert(`Successfully imported ${importedCount} players!`);
+    // Fetch CSV data
+    fetch(csvUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch Google Sheet. Make sure the sheet is publicly accessible or published to web.');
+            }
+            return response.text();
+        })
+        .then(csvText => {
+            // Parse CSV
+            const rows = csvText.split('\n');
+            let importedCount = 0;
+            
+            // Skip header row (row 0) and process data rows
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i].trim();
+                if (!row) continue; // Skip empty rows
+                
+                // Split row by comma (basic CSV parsing)
+                const columns = row.split(',');
+                
+                // Column A is index 0 - Player name
+                // Column B is index 1 - Keep Size
+                const playerName = columns[0] ? columns[0].trim().replace(/^"|"$/g, '') : '';
+                const keepSize = columns[1] ? columns[1].trim().replace(/^"|"$/g, '') : '';
+                
+                // Only import if player name is not empty and not just whitespace
+                if (playerName && playerName.length > 0 && playerName !== 'Player') {
+                    // Determine size from column B, default to 2x2 if not specified
+                    let size = '2x2';
+                    if (keepSize.includes('3') || keepSize.toLowerCase().includes('3x3')) {
+                        size = '3x3';
+                    }
+                    
+                    // Check if player already exists
+                    if (!players.some(p => p.name === playerName)) {
+                        players.push({
+                            name: playerName,
+                            size: size,
+                            assigned: false
+                        });
+                        importedCount++;
+                    }
+                }
+            }
+            
+            // Update UI
+            updateUnassignedList();
+            updatePlayerStats();
+            
+            if (importedCount > 0) {
+                alert(`Successfully imported ${importedCount} players!`);
+            } else {
+                alert('No players found to import. Make sure column A contains player names.');
+            }
+        })
+        .catch(error => {
+            console.error('Import error:', error);
+            alert(`Error importing players: ${error.message}\n\nNote: Make sure your Google Sheet is published to web (File > Share > Publish to web) or publicly accessible.`);
+        });
 }
 
 // Update unassigned player list (no longer needed with modal, but kept for stats)
@@ -957,6 +1014,7 @@ function placeAllianceCityOnGrid(item) {
 function showPlayerModal() {
     const modal = document.getElementById('playerModal');
     const optionsContainer = document.getElementById('playerOptions');
+    const deleteAllBtn = document.getElementById('deleteAllPlayersBtn');
     
     // Sort players alphabetically
     players.sort((a, b) => a.name.localeCompare(b.name));
@@ -965,16 +1023,25 @@ function showPlayerModal() {
     
     if (players.length === 0) {
         optionsContainer.innerHTML = '<p class="empty-state">No unassigned players available</p>';
+        deleteAllBtn.style.display = 'none';
     } else {
+        deleteAllBtn.style.display = 'block';
+        
         players.forEach(player => {
             const option = document.createElement('div');
             option.className = 'player-option';
             option.innerHTML = `
+                <button class="delete-player-btn" data-player-name="${player.name}">&times;</button>
                 <div class="player-preview size-${player.size}">${player.size}</div>
                 <span class="player-name">${player.name}</span>
                 <span class="player-size">Keep Size: ${player.size}</span>
             `;
-            option.addEventListener('click', function() {
+            
+            // Click to select player for placement
+            option.addEventListener('click', function(e) {
+                // Don't select if delete button was clicked
+                if (e.target.classList.contains('delete-player-btn')) return;
+                
                 modal.style.display = 'none';
                 selectedPlayer = {
                     type: 'player',
@@ -983,6 +1050,31 @@ function showPlayerModal() {
                 };
                 alert(`Selected: ${selectedPlayer.name} (${selectedPlayer.size}). Click on the grid to place them.`);
             });
+            
+            // Delete button event
+            const deleteBtn = option.querySelector('.delete-player-btn');
+            deleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm(`Are you sure you want to delete "${player.name}" from the player list?`)) {
+                    // Remove player from array
+                    players = players.filter(p => p.name !== player.name);
+                    // Remove from grid if placed
+                    for (let row = 0; row < GRID_SIZE; row++) {
+                        for (let col = 0; col < GRID_SIZE; col++) {
+                            const item = findItemAt(row, col);
+                            if (item && item.type === 'player' && item.name === player.name) {
+                                removeItem(item);
+                            }
+                        }
+                    }
+                    // Refresh modal
+                    showPlayerModal();
+                    // Update stats
+                    updatePlayerStats();
+                    updatePlacedList();
+                }
+            });
+            
             optionsContainer.appendChild(option);
         });
     }

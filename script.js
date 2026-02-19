@@ -331,7 +331,6 @@ function placeItemOnGrid(item) {
             }
         }
     }
-}
 
 // Check if placement is valid
 function isValidPlacement(startRow, startCol, width, height) {

@@ -414,9 +414,20 @@ main {
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    overflow: visible;
-    padding: 40px;
+    overflow: auto;
+    padding: 20px;
     min-height: 600px;
+    position: relative;
+}
+
+/* Grid wrapper to maintain aspect ratio */
+.grid-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
 }
 
 .game-grid {
@@ -433,6 +444,9 @@ main {
     perspective: 1000px;
     width: 750px;
     height: 750px;
+    flex-shrink: 0;
+    min-width: 750px;
+    min-height: 750px;
 }
 
 .grid-cell {
@@ -649,6 +663,54 @@ main {
     padding-bottom: 10px;
 }
 
+.selection-info {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.selection-info p {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.selection-info .info-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.empty-state {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+}
+
+/* Instructions */
+.instructions {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+}
+
+.instructions h3 {
+    color: #1976D2;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.instructions ol {
+    margin-left: 20px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
 
 /* Modal */
 .modal {
@@ -869,5 +931,46 @@ main {
     
     .grid-container {
         flex: 1;
+    }
+}
+
+/* Embedded view support - maintain aspect ratio */
+@media (max-width: 900px) {
+    main {
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .control-panel, .info-panel {
+        width: 100%;
+        max-height: 180px;
+        padding: 15px;
+    }
+    
+    .grid-container {
+        padding: 10px;
+        min-height: 400px;
+    }
+    
+    .grid-wrapper {
+        min-height: 350px;
+    }
+    
+    /* Scale down grid for embedded views */
+    .game-grid {
+        transform: rotateX(60deg) rotateZ(45deg) scale(0.7);
+        transform-origin: center center;
+    }
+}
+
+@media (max-width: 600px) {
+    .game-grid {
+        transform: rotateX(60deg) rotateZ(45deg) scale(0.5);
+        transform-origin: center center;
+    }
+    
+    .grid-container {
+        min-height: 300px;
     }
 }

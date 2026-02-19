@@ -1,0 +1,873 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+header h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+    font-size: 14px;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Control Panel */
+.control-panel {
+    width: 320px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.control-panel h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.control-panel h3 {
+    color: #555;
+    margin: 20px 0 10px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.control-panel h4 {
+    color: #666;
+    margin: 10px 0 5px 0;
+    font-size: 13px;
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+/* Alliance City Configuration */
+.alliance-city-config {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.alliance-city-config label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
+.alliance-city-config select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+    cursor: pointer;
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.zoom-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.zoom-btn:hover {
+    background: #e0e0e0;
+}
+
+#zoomLevel {
+    font-weight: 600;
+    color: #333;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Coordinate Toggle */
+.coordinate-toggle {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.coordinate-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+}
+
+.coordinate-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Buttons */
+.primary-btn, .secondary-btn, .add-btn, .import-btn, .clear-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.secondary-btn {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.secondary-btn:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.add-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.add-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.import-btn {
+    background: #2196F3;
+    color: white;
+    margin-top: 10px;
+}
+
+.import-btn:hover {
+    background: #0b7dda;
+}
+
+.clear-btn {
+    background: #f44336;
+    color: white;
+}
+
+.clear-btn:hover {
+    background: #da190b;
+}
+
+/* Player List Stats */
+.player-list-stats {
+    display: flex;
+    justify-content: space-between;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.player-list-stats span {
+    font-weight: 600;
+}
+
+/* Import Section - Bottom */
+.import-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.import-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
+.import-section input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.help-text {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* Manual Add Section */
+.manual-add {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+.manual-add label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
+.manual-add input, .manual-add select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+/* Unassigned List */
+.unassigned-list {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.unassigned-list select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    max-height: 200px;
+}
+
+/* Placed List */
+.placed-list {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+}
+
+.placed-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 5px;
+    background: white;
+    border-radius: 4px;
+    border-left: 4px solid #667eea;
+}
+
+.placed-item .item-name {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.placed-item .item-position {
+    font-size: 11px;
+    color: #999;
+}
+
+.placed-item .item-remove {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+/* Legend */
+.legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 2px solid #333;
+}
+
+.legend-color.player-2x2 {
+    background: #FFD700;
+}
+
+.legend-color.player-3x3 {
+    background: #FFA500;
+}
+
+.legend-color.alliance-city-lv3 {
+    background: #FF6B00;
+}
+
+.legend-color.alliance-city-lv4 {
+    background: #FF4500;
+}
+
+.legend-color.rss-tile {
+    background: #4169E1;
+}
+
+.legend-color.warehouse {
+    background: #9370DB;
+}
+
+.legend-color.dead-spot {
+    background: #607D8B;
+}
+
+/* Grid Container */
+.grid-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: visible;
+    padding: 40px;
+    min-height: 600px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(30, 25px);
+    grid-template-rows: repeat(30, 25px);
+    gap: 0;
+    background: rgba(139, 195, 74, 0.3);
+    transform: rotateX(60deg) rotateZ(45deg);
+    transform-origin: center center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+    perspective: 1000px;
+    width: 750px;
+    height: 750px;
+}
+
+.grid-cell {
+    width: 25px;
+    height: 25px;
+    background: #8BC34A;
+    border: 1px solid #689F38;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    transform-style: preserve-3d;
+    min-width: 25px;
+    min-height: 25px;
+}
+
+.grid-cell:hover {
+    background: #9CCC65;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateZ(2px);
+}
+
+.grid-cell.selected {
+    background: #FFC107;
+}
+
+/* Player Name Label */
+.player-name-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+    transform: rotateZ(-45deg);
+    text-align: center;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+/* Auto-scaling text for different sizes */
+.player-name-label.size-2x2 {
+    font-size: 12px;
+}
+
+.player-name-label.size-3x3 {
+    font-size: 16px;
+}
+
+.player-name-label.size-4x4 {
+    font-size: 18px;
+}
+
+.player-name-label.size-1x1 {
+    font-size: 9px;
+}
+
+/* Player Coordinate Label */
+.player-coordinate-label {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 6px;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1px 3px;
+    border-radius: 2px;
+    text-shadow: none;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 11;
+}
+
+/* Perimeter Borders for Items */
+.grid-cell.item-border-top {
+    border-top: 3px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+.grid-cell.item-border-bottom {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+.grid-cell.item-border-left {
+    border-left: 3px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+.grid-cell.item-border-right {
+    border-right: 3px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Dead Spot styling */
+.grid-cell.dead-spot {
+    background: #607D8B !important;
+    border: 2px solid #455A64 !important;
+}
+
+/* Player Cells */
+.grid-cell.player-2x2 {
+    background: #FFD700;
+    border: 2px solid #FFA500;
+}
+
+.grid-cell.player-3x3 {
+    background: #FFA500;
+    border: 2px solid #FF8C00;
+}
+
+/* Building Cells */
+.grid-cell.alliance-city-lv3 {
+    background: #FF6B00;
+    border: none;
+}
+
+.grid-cell.alliance-city-lv4 {
+    background: #FF4500;
+    border: none;
+}
+
+.grid-cell.rss-tile {
+    background: #4169E1;
+    border: none;
+}
+
+.grid-cell.warehouse {
+    background: #9370DB;
+    border: none;
+}
+
+.grid-cell.dead-spot {
+    background: #607D8B;
+    border: none;
+}
+
+/* Alliance City Borders - Only on outside edge (lines between squares) */
+.grid-cell.alliance-city-border-lv3 {
+    position: relative;
+}
+
+.grid-cell.alliance-city-border-lv4 {
+    position: relative;
+}
+
+/* Border edge indicators - these will be set via JavaScript */
+.grid-cell.border-top {
+    border-top: 3px solid #FF6D00 !important;
+}
+
+.grid-cell.border-bottom {
+    border-bottom: 3px solid #FF6D00 !important;
+}
+
+.grid-cell.border-left {
+    border-left: 3px solid #FF6D00 !important;
+}
+
+.grid-cell.border-right {
+    border-right: 3px solid #FF6D00 !important;
+}
+
+.grid-cell.border-top-lv4 {
+    border-top: 3px solid #E64A19 !important;
+}
+
+.grid-cell.border-bottom-lv4 {
+    border-bottom: 3px solid #E64A19 !important;
+}
+
+.grid-cell.border-left-lv4 {
+    border-left: 3px solid #E64A19 !important;
+}
+
+.grid-cell.border-right-lv4 {
+    border-right: 3px solid #E64A19 !important;
+}
+
+/* Drag Preview Highlight */
+.grid-cell.drag-preview {
+    background: rgba(255, 235, 59, 0.6) !important;
+    border: 2px dashed #F57F17 !important;
+    z-index: 100;
+}
+
+.grid-cell.drag-preview-invalid {
+    background: rgba(244, 67, 54, 0.4) !important;
+    border: 2px dashed #D32F2F !important;
+    z-index: 100;
+}
+
+/* Info Panel */
+.info-panel {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-panel h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #667eea;
+}
+
+.modal-header h2 {
+    color: #333;
+    font-size: 18px;
+}
+
+.close {
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #333;
+}
+
+.building-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.building-option {
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.building-option:hover {
+    border-color: #667eea;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.building-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    border: 3px solid #333;
+}
+
+.alliance-city-lv3-preview {
+    background: #FF6B00;
+}
+
+.alliance-city-lv4-preview {
+    background: #FF4500;
+}
+
+.rss-tile-preview {
+    background: #4169E1;
+}
+
+.warehouse-preview {
+    background: #9370DB;
+}
+
+.dead-spot-preview {
+    background: #607D8B;
+}
+
+.building-option span {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+}
+
+.building-option small {
+    color: #666;
+    font-size: 11px;
+    text-align: center;
+}
+
+.building-option.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Player Options in Modal */
+.player-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.player-option {
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-option:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.player-option .player-preview {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    border: 3px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 12px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.player-option .player-preview.size-2x2 {
+    background: #FFD700;
+    width: 50px;
+    height: 50px;
+}
+
+.player-option .player-preview.size-3x3 {
+    background: #FFA500;
+    width: 75px;
+    height: 75px;
+}
+
+.player-option .player-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+}
+
+.player-option .player-size {
+    color: #666;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    main {
+        flex-direction: column;
+    }
+    
+    .control-panel, .info-panel {
+        width: 100%;
+        max-height: 200px;
+    }
+    
+    .grid-container {
+        flex: 1;
+    }
+}
